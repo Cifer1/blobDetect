@@ -7,11 +7,12 @@ from std_msgs.msg import String, Int32
 from cv_bridge import CvBridge, CvBridgeError
 import threading
 
-#cv2.boundingRectangle
+
 
 class Echo:
-    def __init__(self):
-        self.node_name = "Echo"
+    def __init__(self, color):
+        rospy.init_node("blobDetForDrive")
+	self.node_name = "Echo"
         self.thread_lock = threading.Lock()
         self.sub_image = rospy.Subscriber("/camera/rgb/image_rect_color",\
                 Image, self.cbImage)
@@ -19,7 +20,10 @@ class Echo:
                 Int32, queue_size=1)
 	self.pub_image= rospy.Publisher("~image",\
 		Image, queue_size=1)
-        self.bridge = CvBridge()
+	self.shutdown_sub = rospy.Subscriber("/shutdown", \
+			String, self.shutdown)	
+        
+	self.bridge = CvBridge()
 
 
         rospy.loginfo("[%s] Initialized." %(self.node_name))
@@ -53,9 +57,9 @@ class Echo:
 		cv2.rectangle(image_cv, (x,y),(x+w, y+h),(0,255,0),2)
 		print msg
 		self.pub_pos.publish(msg)
-	cv2.imshow("masked",image_cv)
-	cv2.waitKey(0)
-	cv2.destroyAllWindows()
+	#cv2.imshow("masked",image_cv)
+	#cv2.waitKey(0)
+	#cv2.destroyAllWindows()
 	self.pub_image.publish(self.bridge.cv2_to_imgmsg(image_cv, encoding="bgr8"))
 	
 	
@@ -70,6 +74,13 @@ class Echo:
         except CvBridgeError as e:
             print(e)
         self.thread_lock.release()
+
+    def shutdown(self, msg):
+		if msg == "blobDetector shutdown": 
+			rospy.loginfo("blobDetector shutting down")
+			rospy.signal_shutdown("bd finished with ops")
+		else:
+			return
     
     
 	
