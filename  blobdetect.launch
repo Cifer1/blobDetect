@@ -1,5 +1,0 @@
-<launch>
-<node name="teleop" pkg="racecar" type="joy_teleop.yaml"/>
-<node name="main" pkg="blobDetect" type="mainNode.py"/>
-<node name="zed" pkg="zed-ros-wrapper" type="zed_wrapper_node.cpp" />
-</launch>

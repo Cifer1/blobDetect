@@ -22,7 +22,13 @@ class Echo:
 		Image, queue_size=1)
 	self.shutdown_sub = rospy.Subscriber("/shutdown", \
 			String, self.shutdown)	
-        
+        self.color = color
+	if self.color == "red":
+		self.upper = np.array([0,0,0])
+		self.lower = np.array([0,0,0])
+	else:
+		self.upper = np.array([0,0,0])
+		self.lower = np.array([0,0,0])
 	self.bridge = CvBridge()
 
 

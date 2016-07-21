@@ -1,0 +1,14 @@
+
+<launch>
+  <node name="pidDrive" pkg="blobDetect" type="pidDrive.py"/>
+  <node name="mainNode" pkg="blobDetect" type="mainNode.py"/>
+  <node name="checkRect" pkg="blobDetect" type="checkRect.py"/>
+  <arg name="racecar_version" default="racecar-v2" />
+  <arg name="run_camera" default="false"/>
+ <!-- <include file="$(find racecar)/launch/teleop.launch">
+    <arg name="racecar_version" value="$(arg racecar_version)" />
+    <arg name="run_camera" value="$(arg run_camera)" />
+  </include> !-->
+ 
+  
+</launch>
