@@ -1,0 +1,5 @@
+<launch>
+  <node name="pidDrive" pkg="blobDetect" type="pidDrive.py" respawn="false" />
+  <node name="mainNode" pkg="blobDetect" type="mainNode.py" output="screen"/>
+  <node name="checkRect" pkg="blobDetect" type="checkRect.py"/>
+</launch>
